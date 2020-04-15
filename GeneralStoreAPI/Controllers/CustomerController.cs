@@ -62,5 +62,19 @@ namespace GeneralStoreAPI.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        //DELETE
+        [HttpDelete]
+        public async Task<IHttpActionResult> Delete([FromUri] int id)
+        {
+            Customer customer = await _context.Customers.FindAsync(id);
+            if(customer == null)
+            {
+                return NotFound();
+            }
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
     }
 }
