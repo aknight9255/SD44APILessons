@@ -59,5 +59,18 @@ namespace GeneralStoreAPI.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpDelete]
+        public async Task<IHttpActionResult> Delete([FromUri]int id)
+        {
+            Transaction transaction = await _context.Transactions.FindAsync(id);
+            if (transaction != null)
+            {
+                _context.Transactions.Remove(transaction);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return NotFound();
+        }
     }
 }
